@@ -19,6 +19,7 @@ const maxValue = document.querySelector('#maxValue');
 const stepCount = document.querySelector('#stepCount');
 const extractedList = document.querySelector('#extractedValues');
 const extractedCount = document.querySelector('#extractedCount');
+const extractionStatus = document.querySelector('#extractionStatus');
 
 const MAX_NODES = 31;
 const NODE_RADIUS = 24;
@@ -252,6 +253,13 @@ function drawArrayView() {
     cell.querySelector('b').textContent = value;
     extractedList.append(cell);
   });
+  if (!poppedValues.length) {
+    extractionStatus.textContent = '每次取出目前最大值；持續取出直到堆清空，就得到完整遞減排序。';
+  } else if (!heap.length) {
+    extractionStatus.textContent = `排序完成，共取出 ${poppedValues.length} 個數字。結果由大到小；反向讀取即可得到由小到大。`;
+  } else {
+    extractionStatus.textContent = `已取出 ${poppedValues.length} 個最大值；繼續按「取出最大值」完成排序。`;
+  }
 }
 
 function updatePlaybackControls() {
@@ -313,6 +321,10 @@ function buildHeap() {
 }
 
 function addNumber() {
+  if (poppedValues.length) {
+    setMessage('已開始取出排序結果。如要更改數列，請重新建立最大堆後再插入。', 'error');
+    return;
+  }
   const raw = newNumberInput.value.trim();
   if (!/^[+-]?\d+$/.test(raw)) {
     setMessage('請輸入一個有效的整數。', 'error');

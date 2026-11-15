@@ -68,9 +68,10 @@
           <svg id="treeSvg" role="img" aria-label="最大堆二元樹圖形" focusable="false"></svg>
           <div id="emptyState" class="empty-state"><span class="empty-glyph">⌃</span><b>輸入數列，建立最大堆</b><small>最大值會在頂端，節點依序由左至右補位</small></div>
         </div>
-        <section class="extraction-panel" aria-label="已取出的最大值">
-          <div class="extraction-heading"><b>已取出的最大值</b><span id="extractedCount">0 個</span></div>
+        <section class="extraction-panel" aria-label="已取出的最大值與排序結果">
+          <div class="extraction-heading"><b>取出結果・由大到小</b><span id="extractedCount">0 個</span></div>
           <div id="extractedValues" class="extracted-values"><small>取出結果會依序顯示在這裡</small></div>
+          <p id="extractionStatus" class="extraction-status" aria-live="polite">每次取出目前最大值；持續取出直到堆清空，就得到完整遞減排序。</p>
         </section>
         <div class="array-heading"><span>HEAP ARRAY</span><small>索引 0 是根節點；子節點索引為 2i + 1、2i + 2</small></div>
         <div id="arrayView" class="array-view" aria-label="最大堆陣列表示"></div>
@@ -78,6 +79,37 @@
       </section>
     </section>
 
+    <section class="learning-section" aria-label="堆積排序與氣泡排序分析及心得">
+      <div class="learning-heading">
+        <div><p class="eyebrow">03 / ANALYSIS</p><h2>堆積排序與氣泡排序</h2></div>
+        <span class="learning-tag">時間複雜度比較</span>
+      </div>
+      <p class="learning-intro">令 <i>n</i> 為資料筆數。下表比較標準排序演算法的時間成長與穩定性；氣泡排序的最佳情況以「每輪檢查是否有交換，已排序便提早停止」為前提。</p>
+      <div class="complexity-table-wrap">
+        <table class="complexity-table">
+          <thead><tr><th scope="col">排序法</th><th scope="col">最佳</th><th scope="col">平均</th><th scope="col">最差</th><th scope="col">額外空間</th><th scope="col">穩定性</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">堆積排序</th><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)*</td><td>不穩定</td></tr>
+            <tr><th scope="row">氣泡排序（有提早停止）</th><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>穩定</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="analysis-notes">
+        <article><b>堆積排序的時間複雜度</b><p>最大堆的根節點就是未排序資料中的最大值。建堆後，每次取出根節點並向下調整，最多走過樹高 O(log n)；取出 n 次，所以整體為 O(n log n)。標準原地版本以自底向上的方式建堆，建堆為 O(n)，額外空間 O(1)。</p></article>
+        <article><b>氣泡排序什麼時候較適合？</b><p>它比較相鄰元素並交換逆序資料。資料已排序時，有提早停止的版本能在 O(n) 完成；一般或反向資料的平均與最差時間仍為 O(n²)。它穩定、額外空間 O(1)，但資料量大時比較和交換會快速增加，較適合教學或很小的資料集。</p></article>
+      </div>
+      <p class="example-check"><b>預設範例驗證：</b>輸入 48、25、72、12、36、60、90，連續取出應依序得到 90、72、60、48、36、25、12。</p>
+      <p class="complexity-caveat">* 複雜度表指標準原地排序演算法。本頁為了逐步播放與回看會保存操作快照，且最多展示 31 個節點；展示用記憶體不等同標準堆積排序的 O(1) 額外空間。本頁以逐筆插入展示建堆，建堆最差為 O(n log n)；標準堆積排序常用自底向上建堆，建堆為 O(n)。</p>
+      <div class="reflection-block">
+        <div class="reflection-heading"><p class="eyebrow">04 / REFLECTION</p><h2>操作心得與觀察</h2></div>
+        <div class="reflection-copy">
+          <p>實際操作後，我發現堆積排序的關鍵不是先把整個數列排好，而是維持「父節點不小於子節點」的最大堆條件。建立堆時，數字依序放進下一個空位，再沿父節點比較，必要時交換上移；因此目前最大值總是在根節點，可以直接取出。</p>
+          <p>取出根節點後，最後一個節點會補到根部。左右子節點都存在時，必須先比較兩者並選較大的子節點，再和父節點比較及交換，直到堆序恢復。只檢查一個孩子是不夠的，否則較大的孩子可能仍留在父節點之上，下一次取出的就不一定是最大值。</p>
+          <p>連續取出最大值會得到由大到小的結果；若要由小到大，可以把結果反向讀取。每次調整的路徑最多是樹高，因此堆積排序的時間成長為 O(n log n)。氣泡排序概念直觀，已排序資料搭配提早停止也能很快完成，但平均和最差情況是 O(n²)。這讓我理解，排序方法要依資料規模與需求選擇，不能只看程式是否容易寫。</p>
+          <p>透過上一步、下一步和自動播放，我能看見每次比較、交換與根節點變化，也能用連續取出結果確認排序順序。動畫適合學習操作細節；資料量變大時，保存每個動畫快照會增加展示程式的記憶體與處理時間，所以實際系統通常會直接執行排序，而不保留每個畫面。</p>
+        </div>
+      </div>
+    </section>
     <footer><span>INSERT <b>→</b> COMPARE <b>→</b> SWAP</span><span>最大堆 · Max Binary Heap</span><span>資料結構練習 <i>✳</i></span></footer>
   </main>
   <script src="script.js?v=max-heap-1"></script>
