@@ -164,6 +164,13 @@ textarea[aria-invalid="true"] { border-color: #bb745f; }
 .legend-root { width: 11px; height: 11px; border: 1.5px solid var(--green); border-radius: 50%; background: var(--green); }
 .legend-line { width: 18px; height: 2px; background: #9eaa95; }
 .legend-index { display: grid; width: 15px; height: 15px; place-items: center; border: 1px solid #91a18a; border-radius: 50%; color: #496347; font: 8px var(--mono); }
+.contribution-section { margin-top: 18px; padding: 27px 30px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); box-shadow: 0 10px 35px #3b382b08; }
+.contribution-heading h2 { margin: 0; font: 500 25px var(--serif); letter-spacing: -.025em; }
+.contribution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+.contribution-grid article { padding: 15px 16px; border: 1px solid #e7e8df; border-radius: 12px; background: #fbfbf7; }
+.contribution-grid article b { color: #394b3e; font-size: 11px; }
+.contribution-grid article p { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.85; }
+.contribution-note { margin: 13px 0 0; color: #7a8279; font-size: 10px; line-height: 1.75; }
 footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 3px 0; color: var(--muted); font: 10px var(--mono); letter-spacing: .04em; }
 footer b { padding: 0 4px; color: var(--orange); font-weight: 400; }footer i { color: var(--orange); font-style: normal; }
 @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
@@ -182,6 +189,9 @@ footer b { padding: 0 4px; color: var(--orange); font-weight: 400; }footer i { c
   .control-panel { padding: 21px 20px; }
   .tree-stage { min-height: 300px; }
   .learning-section { padding: 23px 19px; }
+  .contribution-section { padding: 23px 19px; }
+  .contribution-heading h2 { font-size: 23px; }
+  .contribution-grid { grid-template-columns: 1fr; }
   .learning-heading h2 { font-size: 25px; }
   .analysis-notes, .reflection-copy { grid-template-columns: 1fr; }
   footer { flex-wrap: wrap; row-gap: 8px; }
